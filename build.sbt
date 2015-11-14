@@ -23,3 +23,5 @@ libraryDependencies ++= {
 javaOptions ++= Seq("-Djava.net.preferIPv4Stack=true")
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xlint", "-Ywarn-dead-code", "-encoding", "UTF-8")
+
+enablePlugins(JavaAppPackaging)
