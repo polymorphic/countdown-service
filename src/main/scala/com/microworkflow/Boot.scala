@@ -14,7 +14,8 @@ object Boot extends App {
   val router: ActorRef = actorSystem.actorOf(Props[RestRouter])
 
   val config = ConfigFactory.defaultApplication()
-  val port = Try { config.getInt("http.port")}.getOrElse(8080)
+//  val port = Try { config.getInt("http.port")}.getOrElse(8080)
+  val port = sys.env.get("PORT").map(_.toInt).getOrElse(8080)
   actorSystem.log.info(s"Binding on port $port")
   IO(Http) ! Http.Bind(router, interface = "0.0.0.0", port = port)
 
