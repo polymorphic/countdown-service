@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/countdown-service
+web: target/universal/stage/bin/countdown-service -Dhttp.port=${PORT}

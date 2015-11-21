@@ -2,7 +2,10 @@ package com.microworkflow
 
 import akka.actor.{Props, ActorRef, ActorSystem}
 import akka.io.IO
+import com.typesafe.config.ConfigFactory
 import spray.can.Http
+
+import scala.util.Try
 
 object Boot extends App {
 
@@ -10,10 +13,9 @@ object Boot extends App {
 
   val router: ActorRef = actorSystem.actorOf(Props[RestRouter])
 
-  val port = sys.env.get("PORT").map(_.toInt).getOrElse(8080)
-
+  val config = ConfigFactory.defaultApplication()
+  val port = Try { config.getInt("http.port")}.getOrElse(8080)
   actorSystem.log.info(s"Binding on port $port")
-
   IO(Http) ! Http.Bind(router, interface = "0.0.0.0", port = port)
 
 }
