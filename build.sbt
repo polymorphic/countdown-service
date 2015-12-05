@@ -16,6 +16,7 @@ libraryDependencies ++= {
  	, "io.spray" %% "spray-routing" % sprayVersion
  	, "io.spray" %% "spray-testkit" % sprayVersion
  	, "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.6.3"
+  , "com.github.nscala-time" %% "nscala-time" % "2.6.0"
  	, "org.scalatest" %% "scalatest" % "2.2.4" % "test"
  )
  }
