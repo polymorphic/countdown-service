@@ -27,4 +27,8 @@ lazy val projectSettings = Seq(
 
 lazy val root = (project in file("."))
   .settings(platformSettings ++ projectSettings: _*)
-  .enablePlugins(JavaAppPackaging)
+  .enablePlugins(JavaAppPackaging, BuildInfoPlugin)
+  .settings(
+    buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
+    buildInfoOptions += BuildInfoOption.ToJson
+  )

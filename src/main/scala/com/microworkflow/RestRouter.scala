@@ -47,6 +47,11 @@ class RestRouter extends Actor with HttpService with ActorLogging {
         complete("pong")
       }
     } ~
+    path("info") {
+      get {
+        complete(buildinfo.BuildInfo.toJson)
+      }
+    } ~
     path("register") {
       post {
         entity(as[String]) { jsonString =>
