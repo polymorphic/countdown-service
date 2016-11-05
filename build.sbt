@@ -1,28 +1,30 @@
-name := "countdown service"
+import sbt.Keys._
 
-organization := "com.microworkflow"
+lazy val platformSettings = Seq(
+  scalaVersion := "2.11.8",
+  resolvers ++= Seq("spray repo" at "http://repo.spray.io"),
+  libraryDependencies ++= {
+    val akkaVersion = "2.4.12"
+    val sprayVersion = "1.3.4"
+    Seq("com.typesafe.akka" %% "akka-actor" % akkaVersion
+      , "io.spray" %% "spray-can" % sprayVersion
+      , "io.spray" %% "spray-routing" % sprayVersion
+      , "io.spray" %% "spray-testkit" % sprayVersion
+      , "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.7.2"
+      , "com.github.nscala-time" %% "nscala-time" % "2.14.0"
+      , "org.scalatest" %% "scalatest" % "3.0.0" % "test"
+    )
+  },
+  javaOptions ++= Seq("-Djava.net.preferIPv4Stack=true"),
+  scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xlint", "-Ywarn-dead-code", "-encoding", "UTF-8")
+)
 
-scalaVersion := "2.11.7"
+lazy val projectSettings = Seq(
+  name := "countdown service",
+  organization := "com.microworkflow",
+  version := "0.0.1-SNAPSHOT"
+)
 
-version := "0.0.1-SNAPSHOT"
-
-resolvers ++= Seq("spray repo" at "http://repo.spray.io")
-
-libraryDependencies ++= {
- val akkaVersion = "2.4.0"
- val sprayVersion = "1.3.3"
- Seq( "com.typesafe.akka" %% "akka-actor" % akkaVersion
- 	, "io.spray" %% "spray-can" % sprayVersion
- 	, "io.spray" %% "spray-routing" % sprayVersion
- 	, "io.spray" %% "spray-testkit" % sprayVersion
- 	, "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.6.3"
-  , "com.github.nscala-time" %% "nscala-time" % "2.6.0"
- 	, "org.scalatest" %% "scalatest" % "2.2.4" % "test"
- )
- }
-
-javaOptions ++= Seq("-Djava.net.preferIPv4Stack=true")
-
-scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xlint", "-Ywarn-dead-code", "-encoding", "UTF-8")
-
-enablePlugins(JavaAppPackaging)
+lazy val root = (project in file("."))
+  .settings(platformSettings ++ projectSettings: _*)
+  .enablePlugins(JavaAppPackaging)
