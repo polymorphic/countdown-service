@@ -1,13 +1,14 @@
 package com.microworkflow
 
-import akka.actor.{Actor, ActorLogging}
-import com.fasterxml.jackson.databind.ObjectMapper
+import akka.actor.{Actor, ActorLogging, Props}
+import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
+import com.microworkflow.SkillHandler.HandleSkill
 import spray.http.StatusCodes._
-import spray.routing.{ExceptionHandler, HttpService, Route, RoutingSettings}
+import spray.routing._
 import spray.util.LoggingContext
 
-import scala.util.{Failure, Success}
+import scala.util.{Failure, Success, Try}
 
 object RestRouter {
   val html = <html lang="en">
@@ -40,7 +41,22 @@ class RestRouter extends Actor with HttpService with ActorLogging {
 
   val route: Route = {
     path("") {
-      complete(RestRouter.html)
+      get {
+        complete(RestRouter.html)
+      } ~
+      post {
+        entity(as[String]) { jsonString =>
+          Try { mapper.readTree(jsonString) } match {
+            case scala.util.Success(jsonNode) ⇒
+              log.debug(s"processing $jsonString")
+              foo(jsonNode)
+            case scala.util.Failure(t) ⇒
+              log.error(t, "error parsing document body")
+              failWith(t)
+          }
+
+        }
+      }
     } ~
     path("ping") {
       get {
@@ -68,4 +84,28 @@ class RestRouter extends Actor with HttpService with ActorLogging {
       }
     }
   }
+
+  def foo(jsonNode: JsonNode): Route = {
+    rc: RequestContext ⇒ {
+      val requestHandler = context.actorOf(SkillHandler.props(rc))
+      requestHandler ! HandleSkill(jsonNode)
+    }
+  }
+}
+
+class SkillHandler(rc: RequestContext) extends Actor with ActorLogging {
+  val mapper = new ObjectMapper()
+  mapper.registerModule(DefaultScalaModule)
+
+  override def receive: Actor.Receive = {
+    case HandleSkill(jsonNode) ⇒
+      rc.complete("ok")
+  }
+}
+
+object SkillHandler {
+  def props(rc: RequestContext): Props = Props(classOf[SkillHandler], rc)
+
+  sealed trait SkillHandlerProtocol
+  case class HandleSkill(jsonNode: JsonNode) extends SkillHandlerProtocol
 }
