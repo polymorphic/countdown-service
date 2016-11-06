@@ -1,39 +1,24 @@
 {
-  "version": "string",
   "session": {
-    "new": true,
-    "sessionId": "string",
+    "sessionId": "SessionId.38c790e3-a851-4412-b590-0c6f984da58c",
     "application": {
-      "applicationId": "string"
+      "applicationId": "amzn1.ask.skill.74598028-b347-41b5-8c69-843fc171a8e5"
     },
-    "attributes": {
-      "string": {}
-    },
+    "attributes": {},
     "user": {
-      "userId": "string",
-      "accessToken": "string"
-    }
-  },
-  "context": {
-    "System": {
-      "application": {
-        "applicationId": "string"
-      },
-      "user": {
-        "userId": "string",
-        "accessToken": "string"
-      },
-      "device": {
-        "supportedInterfaces": {
-          "AudioPlayer": {}
-        }
-      }
+      "userId": "amzn1.ask.account.AF4J2D66N3ZJ3DSKPQZKJUHNRN27TVNEFOZXUTV3TZJZSVCECWOWAIHR7HJIIYNY6ZZDOUGIA6KYATYKKSZQS7VO26XISPZDCYX5CMHHLVC3I72M7BNKVRRY2XUUK3YM2INV2WRHEIH5TR7SRDEOKO5CQA3AH2WCXUQ2ZZWG74IZXLSJDNLQQ23O3KU4I4SVXJNBDV44GEHMPQA"
     },
-    "AudioPlayer": {
-      "token": "string",
-      "offsetInMilliseconds": 0,
-      "playerActivity": "string"
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.1c3c7318-aa1f-4e3c-b151-14b3a7d68dd3",
+    "locale": "en-US",
+    "timestamp": "2016-11-06T15:57:56Z",
+    "intent": {
+      "name": "GetNewFactIntent",
+      "slots": {}
     }
   },
-  "request": {}
+  "version": "1.0"
 }

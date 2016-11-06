@@ -22,7 +22,7 @@ lazy val platformSettings = Seq(
 lazy val projectSettings = Seq(
   name := "countdown service",
   organization := "com.microworkflow",
-  version := "0.0.1-SNAPSHOT"
+  version := "0.0.2-SNAPSHOT"
 )
 
 lazy val root = (project in file("."))
